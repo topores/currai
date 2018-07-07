@@ -13,7 +13,11 @@ def initwightlog(w2):
     w2logstart= open('w2logstart.txt', 'w')
     for i in range(0,len(w2)):
         w2logstart.write(str(w2[i])+'\n')
+    w2logstart.close()
 def checkwightlog(w2):
     w2loglast = open('w2loglast.txt', 'w')
     for i in range(0, len(w2)):
         w2loglast.write(str(w2[i]) + '\n')
+    w2loglast.close()
+def closelog(f):
+    f.close()

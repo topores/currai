@@ -2,15 +2,19 @@ import revmethlib as rml
 import methods1 as mtd
 import parsing as prs
 import numpy as np
+import visualpack as vpk
 import logs
+import math
+import matplotlib.pyplot as plt
+
 import time
 #!!!!
-learnrate=0.002
+learnrate=0.005
 #!!!!
 errorlog,trueerrorlog,rgratelog=logs.initlogs()
 
-win=0
-lose=0
+win=1
+lose=1
 
 N2hold=np.zeros((4096))
 O, H, L, C, T = prs.initpars()
@@ -18,7 +22,9 @@ O, H, L, C, T = prs.initpars()
 w1=mtd.initw1()
 w2=mtd.initw2()
 logs.initwightlog(w2)
-for i in range(3,11680,1):
+
+errorav=0.3
+for i in range(3,72380,1):
     #calculation
     N1=mtd.initN1(O,H,L,C,i)
     N2=mtd.initN2(N1,w1)
@@ -29,10 +35,16 @@ for i in range(3,11680,1):
     expected=prs.getexpected(O, H, L, C,i)
     error=actual-expected
     # loging
-    if ((actual>0.5) and (expected>0.5)) or ((actual<0.5) and (expected<0.5)):
-        win+=1
-    else:
-        lose+=1
+    if (actual>0.6):
+        if (expected>0.5):
+            win+=1
+        else:
+            lose+=1
+    elif (actual<0.40):
+        if (expected<0.5):
+            win+=1
+        else:
+            lose+=1
 
     rgrate=win/(win+lose)
     trueerror = rml.antisigmoid(actual) - rml.antisigmoid(expected)
@@ -48,7 +60,9 @@ for i in range(3,11680,1):
     print(' ')
     '''
     print(i,error,trueerror,rgrate)
-    logs.updatelogs(errorlog, trueerrorlog, rgratelog, error, trueerror, rgrate)
+    error=((error)**2)
+    errorav=(errorav*i+error)/(i+1)
+    logs.updatelogs(errorlog, trueerrorlog, rgratelog, errorav, math.fabs(trueerror), rgrate)
     #correction
 
     #w2 corr
@@ -68,16 +82,11 @@ for i in range(3,11680,1):
 
 
 logs.checkwightlog(w2)
+#graphics
 
-
-
-
-
-
-
-
-
-
+logs.closelog(errorlog)
+logs.closelog(trueerrorlog)
+logs.closelog(rgratelog)
 
 
 

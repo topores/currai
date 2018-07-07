@@ -20,9 +20,9 @@ def initw1():
         s=genstring(i)
         for j in range(0,12):
             if (s[j]=='1'):
-                w1[i,j]=0.6+random.random()*0.1
+                w1[i,j]=0.45+random.random()*0.1
             else:
-                w1[i, j] = -0.6 - random.random()*0.1
+                w1[i, j] =random.random()*0.1-0.05
     return w1
 
 def initw2():
@@ -39,6 +39,7 @@ def genstring(i):
     for j in range(0,l):
         s='0'+s
     return s
+
 
 
 def initN2(N1,w1):

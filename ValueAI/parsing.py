@@ -6,14 +6,15 @@ l=0
 def initpars():
     f=open("EURUSD.csv")
     i=0
-    O = np.zeros((11700))
-    H = np.zeros((11700))
-    L = np.zeros((11700))
-    C = np.zeros((11700))
-    T =[' ']*11700
+    O = np.zeros((72384))
+    H = np.zeros((72384))
+    L = np.zeros((72384))
+    C = np.zeros((72384))
+    T =[' ']*72384
     for line in f:
         #print(line)
         T[i]=line[0:15]
+        #print(T[i])
         line=line[16:len(line)]
         O[i]=line[0:9]
         line = line[10:len(line)]
@@ -46,5 +47,4 @@ def getparsdata(O, H, L, C,i):
 
 def getexpected(O, H, L, C,i,k=4096):
     return rml.sigmoid((C[i+1]-O[i+1])*k)
-
 
